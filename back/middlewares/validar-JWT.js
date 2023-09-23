@@ -9,7 +9,7 @@ const validarJWT=(req=express.request,res=express.response,next)=>{
     if(!token){
         return res.status(401).json({
             ok:false,
-            message:'No hay un token a renvoar'
+            message:'No hay un token a renovar'
         })
     }
 

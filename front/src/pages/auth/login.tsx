@@ -17,7 +17,6 @@ const LoginPage = () => {
   const {status,startLogin}=useContext(AuthContext);
 
   const onSubmitLogin=(Data:DataForm)=>{
-    console.log(Data);
     startLogin(Data.fullName);
   }
 
@@ -30,7 +29,7 @@ const LoginPage = () => {
                     <input {...register('fullName',{
                         required:'El nombre es obligatorio'
                     })} placeholder=' ' style={{marginBottom:!errors.fullName ? '.9rem' : ''}} type="text" className={`${styles['input-form']} ${errors.fullName ? 'border-red-600' : ''} font-poppin shadow-sm`}/>
-                    <label className={`${styles['label-input']} font-poppin font-normal`}>Nombre Completo</label>
+                    <label className={`${styles['label-input']} font-poppin font-normal`}>Nombre</label>
                 </div>
                 <button disabled={status==='loading' ? true : false} type='submit' className='font-poppin text-lg font-bold flex justify-center items-center text-white bg-[#2587be] w-[100%] p-2 rounded-lg'>
                     {status==='loading' ? <Loader/> : 'Login'}</button>
