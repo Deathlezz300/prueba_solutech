@@ -1,8 +1,13 @@
-import React from 'react'
+import React,{FC} from 'react'
 import styles from '../styles/styles.module.css'
 
-export const Loader = () => {
+interface props{
+  width:string,
+  height:string
+}
+
+export const Loader:FC<props> = ({width,height}) => {
   return (
-    <span className={styles.loader}></span>
+    <span className={`${styles.loader} ${width} ${height}`}></span>
   )
 }

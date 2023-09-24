@@ -29,7 +29,7 @@ const LoginUser=async(req=request,res=response)=>{
 
         usuario=usuario.get({plain:true});
 
-        const token=await generarJWT(usuario.id,fullName)
+        const token=await generarJWT(usuario.id,fullName,usuario.type);
 
         return res.status(200).json({
             ok:true,
@@ -81,9 +81,12 @@ const RegisterUser=async(req=request,res=response)=>{
 
         await newAccount.save();
 
+         const token=await generarJWT(newAccount.id,fullName,newAccount.type);
+
         return res.status(200).json({
             ok:true,
-            usuario:newAccount
+            usuario:newAccount,
+            token
         })
 
 
@@ -101,8 +104,9 @@ const RenovarToken=async(req=request,res=response)=>{
     
     const id=req.id;
     const name=req.name;
+    const type=req.type
 
-    const token=await generarJWT(id,name);
+    const token=await generarJWT(id,name,type);
 
     const UserAccount=await Account.findOne({
         where:{

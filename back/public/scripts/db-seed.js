@@ -232,3 +232,7 @@ async function seed() {
 /* This function can delete the database */
 // execute seed
 //seed();
+
+module.exports={
+  seed
+}

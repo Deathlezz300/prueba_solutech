@@ -4,6 +4,9 @@ type ActionType=
     | {type:'SET-USER',payload:IUser}
     | {type:'SET-STATUS',payload:IStatus}
     | {type:'SET-ERROR',payload:string}
+    | {type:'CHANGE-BALANCE',payload:number}
+    | {type:'ADD-BALANCE',payload:number | string}
+    | {type:'LOG-OUT'}
 
 
 export interface UserReducerState{
@@ -33,6 +36,31 @@ export const AuthReducer=(state:UserReducerState,action:ActionType):UserReducerS
             return{
                 ...state,
                 error:action.payload
+            }
+
+        case 'CHANGE-BALANCE':
+            return{
+                ...state,
+                user:{
+                    ...state.user,
+                    balance:state.user.balance-action.payload
+                }
+            }
+        
+        case 'ADD-BALANCE':
+            return{
+                ...state,
+                user:{
+                    ...state.user,
+                    balance:state.user.balance+parseFloat(action.payload as string)
+                }
+            }
+        
+        case 'LOG-OUT':
+            return{
+                status:'not-authenticated',
+                user:{} as IUser,
+                error:''
             }
 
         default:

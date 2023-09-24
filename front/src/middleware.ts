@@ -15,9 +15,20 @@ export async function middleware(req:NextRequest){
         return NextResponse.redirect(url);
     }
 
+    console.log(previosPage);
+
+
     if(!previosPage.startsWith('/auth')){
         try{
-            await jwtVerify(token as string,new TextEncoder().encode(process.env.SECRET_JWT_SEED));
+            const data:any= await jwtVerify(token as string,new TextEncoder().encode(process.env.SECRET_JWT_SEED));
+            const type=data.payload.type;
+
+            if(previosPage.startsWith('/deposit') && type==='supplier'){
+                const url=req.nextUrl.clone();
+                url.pathname='/';
+                return NextResponse.redirect(url);
+            }
+
         }catch(error){
             const url=req.nextUrl.clone();
             url.pathname='/auth/login';
@@ -35,6 +46,9 @@ export async function middleware(req:NextRequest){
 export const config={
     matcher:[
         '/auth/:path*',
-        '/'
+        '/',
+        '/deposit',
+        '/submissions',
+        '/admin'
     ]
 }

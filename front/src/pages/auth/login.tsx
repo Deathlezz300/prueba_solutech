@@ -32,7 +32,7 @@ const LoginPage = () => {
                     <label className={`${styles['label-input']} font-poppin font-normal`}>Nombre</label>
                 </div>
                 <button disabled={status==='loading' ? true : false} type='submit' className='font-poppin text-lg font-bold flex justify-center items-center text-white bg-[#2587be] w-[100%] p-2 rounded-lg'>
-                    {status==='loading' ? <Loader/> : 'Login'}</button>
+                    {status==='loading' ? <Loader width='w-[30px]' height='h-[30px]'/> : 'Login'}</button>
                 <div className='flex w-[100%] gap-1 mt-2 justify-end items-center'>
                     <p className='font-poppin'>¿No tienes cuenta?</p>
                     <Link className={`font-poppin text-[#026DA6] font-semibold relative ${styles.linkAuth}`} href={`/auth/register`}>Registrarse</Link>

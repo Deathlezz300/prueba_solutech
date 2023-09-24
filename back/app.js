@@ -23,6 +23,7 @@ app.use('/api/admin',require('./routes/Admin'));
 
 app.listen(process.env.PORT,()=>console.log(`Servidor corriendo en el puerto ${process.env.PORT}`));
 
+//seed();
 
 module.exports = app;
 

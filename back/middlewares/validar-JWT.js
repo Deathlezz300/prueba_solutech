@@ -15,10 +15,11 @@ const validarJWT=(req=express.request,res=express.response,next)=>{
 
     try{
 
-        const {id,name}=jwt.verify(token,process.env.SECRET_JWT_SEED)
+        const {id,name,type}=jwt.verify(token,process.env.SECRET_JWT_SEED)
 
         req.id=id;
         req.name=name;
+        req.type=type;
 
 
     }catch(error){

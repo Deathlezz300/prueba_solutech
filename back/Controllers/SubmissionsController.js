@@ -65,7 +65,6 @@ const pagarSubmission=async(req=request,res=response)=>{
         where:{
           id:submission_id
         },
-        transaction:transaction
       });
 
       if(!submission){
@@ -76,9 +75,9 @@ const pagarSubmission=async(req=request,res=response)=>{
         })
       };
 
-      if(submission.paid=true){
+      if(submission.paid===true){
         await transaction.rollback();
-        return res.status(200).json({
+        return res.status(400).json({
           ok:false,
           message:'Esta orden ya fue pagada'
         })
@@ -94,7 +93,6 @@ const pagarSubmission=async(req=request,res=response)=>{
           },
         ],
         attributes: ['BuyerId', 'SupplierId'],
-        transaction:transaction
       });
 
 
@@ -114,14 +112,12 @@ const pagarSubmission=async(req=request,res=response)=>{
         where:{
           id:BuyerId
         },
-        transaction:transaction
       });
 
       const UserSupplier=await Account.findOne({
         where:{
           id:SupplierId
         },
-        transaction:transaction
       })
 
       if(UserBuyer.dataValues.balance<submission.dataValues.price){

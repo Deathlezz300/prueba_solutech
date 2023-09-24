@@ -47,7 +47,7 @@ const RegisterPage = () => {
                 </div>
                 <button disabled={status==='loading' ? true : false} className='font-poppin flex justify-center items-center text-lg font-bold text-white bg-[#2587be] w-[100%] p-2 rounded-lg'>
                     {
-                        status==='loading' ? <Loader/> : 'Registrarse'
+                        status==='loading' ? <Loader width='w-[30px]' height='h-[30px]'/> : 'Registrarse'
                     }
                 </button>
                 <div className='flex w-[100%] gap-1 mt-2 justify-end items-center'>

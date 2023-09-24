@@ -3,6 +3,7 @@ const { db } = require('../lib/orm');
 const { Account } = require('../models/accounts');
 const { Submission } = require('../models/submissions');
 const { Agreement } = require('../models/aggreement');
+const {Op}=require('sequelize')
 
 const AddBalanceAccount=async(req=request,res=response)=>{
 
@@ -10,6 +11,8 @@ const AddBalanceAccount=async(req=request,res=response)=>{
     const userId=req.params.accountId;
 
     const {monto}=req.body;
+
+    console.log(monto);
 
     if(requestId!=userId){
         return res.status(401).json({
@@ -28,19 +31,25 @@ const AddBalanceAccount=async(req=request,res=response)=>{
             },
         });
 
-        const submissions=await Submission.findAll({
+        const submissions = await Submission.findAll({
+            include: [
+              {
+                model: Agreement,
+                where: {
+                  [Op.or]: [
+                    { BuyerId: userId },
+                    { SupplierId: userId },
+                  ],
+                  status: 'in_progress',
+                },
+              },
+            ],
             where:{
                 paid:false
-            },
-            include:[
-                {
-                    model:Agreement,
-                    where:{
-                        BuyerId:userId
-                    },
-                },
-            ],
-        });
+            }
+          });
+
+        console.log(submissions);
 
         const totalDeudaSubmissions=submissions.reduce((total,submissionAux)=>{
             return total+submissionAux.price;
@@ -48,6 +57,8 @@ const AddBalanceAccount=async(req=request,res=response)=>{
 
 
         const topeDeposito=totalDeudaSubmissions*0.1;
+
+        console.log(topeDeposito);
 
         if(topeDeposito>0 && (monto<=0 || monto>topeDeposito)){
             await transaccion.rollback();
@@ -57,13 +68,13 @@ const AddBalanceAccount=async(req=request,res=response)=>{
             })
         }
 
-        accountUser.balance=accountUser.balance+monto;
+        accountUser.balance=accountUser.balance+parseInt(monto);
         await accountUser.save();
 
         await transaccion.commit();
 
         return res.status(200).json({
-            ok:false,
+            ok:true,
             message:'Monto agregado correctamente'
         })
 

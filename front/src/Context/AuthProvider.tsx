@@ -70,8 +70,22 @@ export const AuthProvider:FC<props> =({children})=>{
 
     }
 
+    const addBalance=(monto:number)=>{
+        dispatch({type:'ADD-BALANCE',payload:monto});
+    }
+
+    const changeBalance=(price:number)=>{
+        dispatch({type:'CHANGE-BALANCE',payload:price})
+    }
+
+    const OnLogout=()=>{
+        Cookie.remove('token');
+        router.replace('/auth/login');
+        dispatch({type:'LOG-OUT'});
+    }
+
     return(
-        <AuthContext.Provider value={{...state,startLogin,startRegister}}>
+        <AuthContext.Provider value={{...state,startLogin,startRegister,changeBalance,addBalance,OnLogout}}>
             {children}
         </AuthContext.Provider>
     )
