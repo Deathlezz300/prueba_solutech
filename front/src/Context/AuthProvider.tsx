@@ -40,15 +40,32 @@ export const AuthProvider:FC<props> =({children})=>{
             }
 
         }catch(error:any){
-            console.log(error);
             dispatch({type:'SET-STATUS',payload:'not-authenticated'});
-            dispatch({type:'SET-ERROR',payload:error.message})
+            dispatch({type:'SET-ERROR',payload:error.response.data.message})
         }
 
     }
 
-    const startRegister=async(nombre:string,apellido:string,profesion:string)=>{
+    const startRegister=async(nombre:string,apellido:string,profesion:string,tipo:string)=>{
         dispatch({type:'SET-STATUS',payload:'loading'});
+
+        try{
+
+            const {data}=await VendorApi.post('/auth/register',{nombre,apellido,profesion,tipo});
+
+            if(data.ok){
+                dispatch({type:'SET-USER',payload:data.usuario});
+                Cookie.set('token',data.token);
+                dispatch({type:'SET-STATUS',payload:'authenticated'});
+                router.replace('/');
+            }
+
+
+        }catch(error:any){
+            dispatch({type:'SET-ERROR',payload:error.response.data.message});
+            dispatch({type:'SET-STATUS',payload:'not-authenticated'})
+        }
+
     }
 
     const validateSession=async()=>{

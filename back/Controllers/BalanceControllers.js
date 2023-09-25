@@ -12,8 +12,6 @@ const AddBalanceAccount=async(req=request,res=response)=>{
 
     const {monto}=req.body;
 
-    console.log(monto);
-
     if(requestId!=userId){
         return res.status(401).json({
             ok:false,

@@ -4,6 +4,7 @@ const { Agreement } = require('../models/aggreement');
 const {Op}=require('sequelize');
 const { Account } = require('../models/accounts');
 const { db } = require('../lib/orm');
+const { DateToIso } = require('../Utils/DateToIso');
 
 const traerUnpaidSubmissions=async(req=request,res=response)=>{
 
@@ -92,13 +93,11 @@ const pagarSubmission=async(req=request,res=response)=>{
             required: true,
           },
         ],
-        attributes: ['BuyerId', 'SupplierId'],
       });
 
 
       const {BuyerId,SupplierId}=result
 
-      console.log(BuyerId,SupplierId);
 
       if(userId!=BuyerId){
         await transaction.rollback();
@@ -131,12 +130,18 @@ const pagarSubmission=async(req=request,res=response)=>{
       UserBuyer.balance=UserBuyer.balance-submission.price;
       UserSupplier.balance=UserSupplier.balance+submission.price;
       submission.paid=true;
+      submission.paymentDate=DateToIso(new Date());
+      result.status='terminated';
+
+
 
       await UserBuyer.save();
       await UserSupplier.save();
-      await submission.save();
-
+      const nuevo= await submission.save();
+      await result.save();
       await transaction.commit();
+
+      console.log(nuevo);
 
       return res.status(200).json({
         ok:true,

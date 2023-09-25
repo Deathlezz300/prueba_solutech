@@ -147,7 +147,7 @@ export const VendorProvider:FC<props> =({children})=>{
 
             if(data.ok){
                 dispatch({type:'SET-SUPPLIER',payload:{profession:data.professionWithSales.profession,totalSales:data.professionWithSales.totalSales}});
-                dispatch({type:'SET-STATUS',payload:null})
+                dispatch({type:'SET-STATUSPAY',payload:null})
             }
 
         }catch(error:any){

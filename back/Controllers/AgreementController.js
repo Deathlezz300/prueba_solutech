@@ -33,8 +33,6 @@ const getAgreementById=async(req=request,res=response)=>{
 
         aggreement=aggreement.get({plain:true});
 
-        console.log(userId);
-        console.log(aggreement.BuyerId);
 
         if(aggreement.BuyerId!=userId && aggreement.SupplierId!=userId){
             return res.status(401).json({

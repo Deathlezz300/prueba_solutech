@@ -1,10 +1,12 @@
 import { AuthLayout } from '@/Layout/AuthLayout';
-import React,{useContext} from 'react'
+import React,{useContext, useEffect} from 'react'
 import {useForm} from 'react-hook-form'
 import styles from '../../styles/styles.module.css'
 import Link from 'next/link';
 import { AuthContext } from '@/Context/AuthContext';
 import { Loader } from '@/Components/Loader';
+import {toast,ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 interface DataForm{
     fullName:string
@@ -14,14 +16,30 @@ const LoginPage = () => {
 
   const {handleSubmit,formState:{errors},register,getValues}=useForm<DataForm>();
 
-  const {status,startLogin}=useContext(AuthContext);
+  const {status,startLogin,error}=useContext(AuthContext);
 
   const onSubmitLogin=(Data:DataForm)=>{
     startLogin(Data.fullName);
   }
 
+  useEffect(()=>{
+    if(error!=''){
+        toast.error(`${error}`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+    }
+  },[error])
+
   return (
     <AuthLayout title='Login' description='Pagina de inicio de sesion'>
+        <ToastContainer/>
         <section className='w-[100%] min-h-screen flex justify-center items-center'>
             <form className='w-[90%] lg:w-[40%] sm:w-[50%] p-4 flex flex-col gap-2 bg-[#E8E8E8] rounded-lg shadow-lg justify-center items-center' onSubmit={handleSubmit(onSubmitLogin)} >
                 <h1 className='font-extrabold font-poppin mb-2 text-3xl md:text-4xl text-[#2587be]'>VendorManager</h1>
