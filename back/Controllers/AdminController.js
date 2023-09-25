@@ -40,7 +40,9 @@ const getBestSupplier=async(req=request,res=response)=>{
 
 const getBestBuyers=async(req=request,res=response)=>{
 
-    const {start,end,limit=3}=req.query;
+    const {start,end,limit}=req.query;
+
+    console.log(limit);
 
     try{
 
@@ -54,7 +56,7 @@ const getBestBuyers=async(req=request,res=response)=>{
          
          ORDER BY totalBuys DESC
          
-         LIMIT ${parseInt(limit)}`);
+         LIMIT ${limit!="NaN" ? parseInt(limit): 3}`);
 
 
           return res.status(200).json({

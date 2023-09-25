@@ -22,7 +22,8 @@ interface valuesAuth{
     changeFirst:()=>void,
     setFechas:()=>void,
     setSuppliers:(fecha:Date,fecha2:Date)=>void,
-    setBuyers:(fecha:Date,fecha2:Date,limit:string)=>void
+    setBuyers:(fecha:Date,fecha2:Date,limit:string)=>void,
+    clearDataLogOut:()=>void
 }
 
 export const VendorContext=createContext({} as valuesAuth);

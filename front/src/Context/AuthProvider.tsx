@@ -42,6 +42,9 @@ export const AuthProvider:FC<props> =({children})=>{
         }catch(error:any){
             dispatch({type:'SET-STATUS',payload:'not-authenticated'});
             dispatch({type:'SET-ERROR',payload:error.response.data.message})
+            setTimeout(()=>{
+                dispatch({type:'SET-ERROR',payload:''})
+            },500)
         }
 
     }
@@ -63,7 +66,10 @@ export const AuthProvider:FC<props> =({children})=>{
 
         }catch(error:any){
             dispatch({type:'SET-ERROR',payload:error.response.data.message});
-            dispatch({type:'SET-STATUS',payload:'not-authenticated'})
+            dispatch({type:'SET-STATUS',payload:'not-authenticated'});
+            setTimeout(()=>{
+                dispatch({type:'SET-ERROR',payload:''})
+            },500)
         }
 
     }

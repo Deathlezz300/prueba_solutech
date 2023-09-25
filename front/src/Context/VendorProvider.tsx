@@ -81,7 +81,9 @@ export const VendorProvider:FC<props> =({children})=>{
                 dispatch({type:'SET-STATUSPAY',payload:null});
                 dispatch({type:'SET-ERRORS',payload:''})
                 changeBalance(price)
-                 
+                setTimeout(()=>{
+                    dispatch({type:'SET-ACTIVE',payload:0})
+                },500)
             }
 
         }catch(error:any){
@@ -174,9 +176,13 @@ export const VendorProvider:FC<props> =({children})=>{
 
     }
 
+    const clearDataLogOut=()=>{
+        dispatch({type:'CLEAR-DATA'})
+    }
+
     return (
         <VendorContext.Provider value={{...state,setAgreements,setSubmissions,PaySubmission,onAddMonto,changeFirst,setFechas,
-        setSuppliers,setBuyers}}>
+        setSuppliers,setBuyers,clearDataLogOut}}>
             {children}
         </VendorContext.Provider>
     )

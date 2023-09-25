@@ -1,10 +1,18 @@
 import { AuthContext } from '@/Context/AuthContext'
 import React,{useContext} from 'react'
 import Link from 'next/link';
+import { VendorContext } from '@/Context/VendorContext';
 
 export const NavBar = () => {
  
   const {user,OnLogout}=useContext(AuthContext);  
+
+  const {clearDataLogOut}=useContext(VendorContext)
+
+  const onLogOut=()=>{
+    OnLogout();
+    clearDataLogOut();
+  }
 
   return (
     <header className='w-[100%] flex p-4 items-center bg-white'>
@@ -15,7 +23,7 @@ export const NavBar = () => {
             <Link className='font-poppin text-[#026DA6] font-semibold' href='/submissions'>Submission</Link>
             {user.type!='supplier' ? <Link className='font-poppin text-[#026DA6] font-semibold' href='/deposit'>Deposit</Link> : ''}
             <Link className='font-poppin text-[#026DA6] font-semibold' href='/admin'>Admin</Link>
-            <button type='button' onClick={()=>OnLogout()} className='font-poppin text-red-600 font-semibold'>Logout</button>
+            <button type='button' onClick={onLogOut} className='font-poppin text-red-600 font-semibold'>Logout</button>
         </div>
     </header>
   )

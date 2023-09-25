@@ -14,6 +14,7 @@ type ActionType=
     | {type:'SET-FECHAS',payload:{fechaMin:Date,fechaMax:Date}}
     | {type:'SET-SUPPLIER',payload:IProfessionWithSales}
     | {type:'SET-BUYERS',payload:IUsersWithBuy[]}
+    | {type:'CLEAR-DATA'}
 
 export interface VendorReducerState{
     Agreements:IAgreement[],
@@ -103,6 +104,21 @@ export const VendorReducer=(state:VendorReducerState,action:ActionType):VendorRe
             return{
                 ...state,
                 BestBuyers:action.payload
+            }
+
+        case 'CLEAR-DATA':
+            return{
+                Agreements:[] as IAgreement[],
+                error:'',
+                status:null,
+                Submissions:[] as ISubmission[],
+                statusPay:null,
+                idActive:0,
+                first:true,
+                fechaMin:'' as any,
+                fechaMax:'' as any,
+                BestProfession: {} as IProfessionWithSales,
+                BestBuyers:[] as IUsersWithBuy[]
             }
 
         default:
